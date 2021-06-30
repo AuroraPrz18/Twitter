@@ -1,7 +1,9 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,9 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -30,28 +33,50 @@ public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "TimeLineActivity";
     public final int REQUEST_CODE = 20; // NOte: This can be any value and is used to determine the result type later
 
+    ActivityTimelineBinding binding;
     TwitterClient client;
-    RecyclerView rvTweets;
     List <Tweet> tweets;
     TweetsAdapter adapter;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        binding = ActivityTimelineBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         client = TwitterApp.getRestClient(this); //Return an instance of the Twitter client
 
-        // Find the recycler view
-        rvTweets = findViewById(R.id.rvTweets);
+        // Scheme colors for animation
+        binding.swipeContainer.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
+        // Add an onRefreshListener to the swipeContainer to refresh the data
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // To keep animation for 3 seconds
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Stop animation (This will be after 3 seconds)
+                        binding.swipeContainer.setRefreshing(false);
+                    }
+                }, 10000);
+                populateHomeTimeLine();
+            }
+        });
 
         // Init the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
 
         // Recycler view setup: layout manager and adapter
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
-        rvTweets.setAdapter(adapter);
+        binding.rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvTweets.setAdapter(adapter);
 
         populateHomeTimeLine();
 
@@ -86,8 +111,12 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess " + json.toString());
                 JSONArray result = json.jsonArray;
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(result));
-                    adapter.notifyDataSetChanged();
+                    // Clear out items before appending in the new ones
+                    adapter.clear();
+                    // Add new items to your adapter
+                    adapter.addAll(Tweet.fromJsonArray(result));
+                    // Call setRefreshing (false) to signal refresh has finished
+                    binding.swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                 }
@@ -118,7 +147,7 @@ public class TimelineActivity extends AppCompatActivity {
             // Update the adapter notifying it that an item has been inserted
             adapter.notifyItemInserted(0);
             // Scroll to the very top of the RV
-            rvTweets.smoothScrollToPosition(0);
+            binding.rvTweets.smoothScrollToPosition(0);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
