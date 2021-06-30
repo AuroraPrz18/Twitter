@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_marginTop="1dp"
+    android:background="@color/background_item"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -75,4 +78,43 @@
         android:layout_toEndOf="@+id/ivProfileImage"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivMedia"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/ivProfileImage">
+
+        <ImageButton
+            android:id="@+id/icComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_item"
+            android:tint="#AAB8C2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ibRetweet"
+            app:srcCompat="@drawable/ic_comment_stroke" />
+
+        <ImageButton
+            android:id="@+id/ibRetweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_item"
+            android:tint="#AAB8C2"
+            app:layout_constraintEnd_toStartOf="@+id/ibLike"
+            app:layout_constraintStart_toEndOf="@+id/icComment"
+            app:layout_constraintTop_toTopOf="@+id/ibLike"
+            app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+        <ImageButton
+            android:id="@+id/ibLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_item"
+            android:tint="#AAB8C2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_vector_heart_stroke" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
