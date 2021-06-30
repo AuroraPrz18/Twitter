@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,26 +66,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     // Define a viewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivProfileImage;
-        TextView tvBody;
-        TextView tvScreenName;
-        TextView tvRTime;
         ItemTweetBinding binding;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             binding = ItemTweetBinding.bind(itemView);
-            ivProfileImage = binding.ivProfileImage;
-            tvBody = binding.tvBody;
-            tvScreenName = binding.tvScreenName;
-            tvRTime = binding.tvRTime;
         }
 
         public void bind(Tweet tweet) {
-            tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
-            tvRTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
+            binding.tvBody.setText(tweet.body);
+            binding.tvScreenName.setText(tweet.user.screenName);
+            Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
+            binding.tvRTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
+
         }
     }
 }

@@ -65,7 +65,7 @@ public class TimelineActivity extends AppCompatActivity {
                         // Stop animation (This will be after 3 seconds)
                         binding.swipeContainer.setRefreshing(false);
                     }
-                }, 10000);
+                }, 3000);
                 populateHomeTimeLine();
             }
         });
