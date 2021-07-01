@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,9 +25,10 @@ public class DetailActivity extends AppCompatActivity {
             binding.tvBody.setText(tweet.body);
             binding.tvScreenName.setText(tweet.user.name);
             Glide.with(this).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
-            // Next line should be more efficient if I make it be in the format of each locale, with an library, if I have time I'm going to try it
-            Log.d("TIME", tweet.createdAt);
-            binding.tvRTime.setText(tweet.createdAt.substring(11,16) + " · "+ tweet.createdAt.substring(4,10) + ", " + tweet.createdAt.substring(25)); // ??????????????
+
+            // Get the date of the tweet, to do it, it should be parced to the local time zone
+            binding.tvRTime.setText(Tweet.getDate(tweet));
+
             String imageURL = tweet.media.getUrlMedia();
             if(!imageURL.equals("")){
                 Glide.with(this).load(imageURL).into(binding.ivMedia);

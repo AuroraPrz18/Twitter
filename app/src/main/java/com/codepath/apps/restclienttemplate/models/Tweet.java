@@ -10,6 +10,7 @@ import org.parceler.Parcel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -95,6 +96,22 @@ public class Tweet {
         }
 
         return "· " + relativeDate;
+    }
+
+    // Method that returns the date in the local time zone
+    public static String getDate(Tweet tweet){
+        String date = "";
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
+            Date parcedDate = format.parse(tweet.createdAt);
+            String parced = parcedDate.toString();
+            date = parced.substring(11,16) + " · "+ parced.substring(4,10) + ", " + parced.substring(25);
+
+        } catch (ParseException e) {
+            date="";
+        }finally {
+            return date;
+        }
     }
 
     //Method to return a list of tweet object from a JSON array
