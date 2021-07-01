@@ -4,76 +4,151 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:layout_margin="5dp">
+    android:background="@color/medium_gray_30"
+    android:layout_marginTop="1dp"
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
+    >
 
-    <TextView
-        android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="Name" />
-
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="Name" />
-
-    <TextView
-        android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvScreenName"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:textColor="@android:color/black"
-        android:linksClickable="true"
-        android:autoLink="all"
-        tools:text="Overview" />
-
-    <TextView
-        android:id="@+id/tvRTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        tools:text="· 1d"
-        android:layout_toEndOf="@+id/tvScreenName" />
-
-
-    <ImageView
-        android:id="@+id/ivMedia"
+    <RelativeLayout
+        android:background="@color/background_item"
+        android:id="@+id/containerDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:scaleType="fitCenter"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:padding="10dp">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ivProfileImageContainer"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:elevation="12dp"
+            app:cardCornerRadius="40dp"
+            android:layout_centerHorizontal="true">
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
+
+
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@id/ivProfileImageContainer"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@id/ivProfileImageContainer"
+            android:layout_below="@+id/tvScreenName"
+            tools:text="Usuario" />
+
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivProfileImageContainer"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:autoLink="all"
+            android:linksClickable="true"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:text="Overview" />
+
+        <TextView
+            android:id="@+id/tvRTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivMedia"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="5dp"
+            tools:text="5:45 p. m. · 30 jun 21" />
+
+
+        <ImageView
+            android:id="@+id/ivMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvBody"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            tools:srcCompat="@tools:sample/avatars" />
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/containerDetails"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/background_item">
+
+        <ImageButton
+            android:id="@+id/icComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_item"
+            android:tint="#AAB8C2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_comment_stroke" />
+
+        <ImageButton
+            android:id="@+id/ibRetweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_item"
+            android:tint="#AAB8C2"
+            app:layout_constraintEnd_toStartOf="@+id/ibLike"
+            app:layout_constraintStart_toEndOf="@+id/icComment"
+            app:layout_constraintTop_toTopOf="@+id/ibLike"
+            app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+        <ImageButton
+            android:id="@+id/ibLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_item"
+            android:tint="#AAB8C2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_vector_heart_stroke" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/containerButtons"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/background_item">
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </RelativeLayout>

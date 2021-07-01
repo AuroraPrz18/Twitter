@@ -113,19 +113,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
 
         public void bind(Tweet tweet) {
+            binding.tvUserName.setText("@"+tweet.user.screenName);
             binding.tvBody.setText(tweet.body);
-            binding.tvScreenName.setText(tweet.user.screenName);
+            binding.tvScreenName.setText(tweet.user.name);
             Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
-            binding.tvRTime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
-            int radius = 30; //corner radius, higher value = more rounded
-            int margin = 10; //crop margin, set to 0 for corners with no crop
+            binding.tvRTime.setText("· "+tweet.getRelativeTimeAgo(tweet.createdAt));
             String imageURL = tweet.media.getUrlMedia();
             if(!imageURL.equals("")){
                 Log.d("MAGEN", imageURL +" "+ tweet.user.profileImageUrl);
                 Glide.with(context).load(imageURL).into(binding.ivMedia);
-                //.transform(new RoundedCornersTransformation(radius, margin))
-
-                // binding.ivMedia.setMinimumHeight(300);
             }else{
                 Glide.with(context).load("").into(binding.ivMedia);
             }

@@ -6,18 +6,39 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="1dp"
     android:background="@color/background_item"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp">
+    android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ivProfileImageContainer"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:elevation="12dp"
+        app:cardCornerRadius="40dp"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:srcCompat="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/ivProfileImageContainer"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        tools:text="Name" />
 
     <TextView
         android:id="@+id/tvUserName"
@@ -26,33 +47,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="Name" />
-
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="Name" />
-
-    <TextView
-        android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvScreenName"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:textColor="@android:color/black"
-        android:linksClickable="true"
-        android:autoLink="all"
-        tools:text="Overview" />
+        android:layout_toEndOf="@+id/tvScreenName"
+        tools:text="Usuario" />
 
     <TextView
         android:id="@+id/tvRTime"
@@ -62,8 +58,21 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
         tools:text="· 1d"
-        android:layout_toEndOf="@+id/tvScreenName" />
+        android:layout_toEndOf="@+id/tvUserName" />
 
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvScreenName"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/ivProfileImageContainer"
+        android:textColor="@android:color/black"
+        android:linksClickable="true"
+        android:autoLink="all"
+        tools:text="Overview" />
 
     <ImageView
         android:id="@+id/ivMedia"
@@ -71,19 +80,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:scaleType="fitCenter"
-        android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/ivProfileImageContainer"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivMedia"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/ivProfileImage">
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/ivProfileImageContainer">
 
         <ImageButton
             android:id="@+id/icComment"
@@ -117,4 +125,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_vector_heart_stroke" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </RelativeLayout>

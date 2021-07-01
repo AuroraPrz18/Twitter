@@ -9,8 +9,8 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/btnLogout">
+        android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTweets"
             android:layout_width="match_parent"
@@ -18,17 +18,24 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:background="@color/medium_gray_30"
-            />
+            android:background="@color/medium_gray_30" />
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="86dp"
+        android:layout_height="102dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
-        android:onClick="onClickLogout"
-        android:text="Logout" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:onClick="onClickCompose"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/twitter_blue"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:tint="@color/background_item"
+        app:srcCompat="@drawable/ic_vector_compose" />
+
 </RelativeLayout>

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,12 +91,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.compose){
-            // Compose icon has been selected
-            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
-            // Navigate to the compose activity
-            Intent intent = new Intent(this, ComposeActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
+        if (item.getItemId() == R.id.logout){
+            onClickLogout();
             return true; // true because we want to consume the processing here
         }
         return super.onOptionsItemSelected(item);
@@ -130,7 +125,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    public void onClickLogout(View view) {
+    public void onClickLogout() {
         client.clearAccessToken(); // forget who'' logged in
         finish(); // navigate backwards to Login
     }
@@ -152,5 +147,12 @@ public class TimelineActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    public void onClickCompose(View view) {
+        // Compose icon has been selected
+        // Navigate to the compose activity
+        Intent intent = new Intent(this, ComposeActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 }

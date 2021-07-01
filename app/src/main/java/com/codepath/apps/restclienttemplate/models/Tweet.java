@@ -39,11 +39,11 @@ public class Tweet {
         if(entities.has("media")){
             JSONObject media = (JSONObject) entities.getJSONArray("media").get(0);
             JSONObject sizes = media.getJSONObject("sizes").getJSONObject("thumb");
-            if(media.getString("type").equals("photo")){ // If it has a photo
+            //if(media.getString("type").equals("photo")){ // If it has a photo
                 tweet.media = new Media(media.getString("media_url_https"), sizes.getInt("h"), sizes.getInt("h"));
-            }else{
+            /*}else{
                 tweet.media = new Media("");
-            }
+            }*/
 
         }else{
             tweet.media = new Media("");
