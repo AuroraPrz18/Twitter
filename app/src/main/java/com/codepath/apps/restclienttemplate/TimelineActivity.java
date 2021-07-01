@@ -33,6 +33,7 @@ public class TimelineActivity extends AppCompatActivity {
     public final int REQUEST_CODE = 20; // NOte: This can be any value and is used to determine the result type later
 
     ActivityTimelineBinding binding;
+    MenuItem pbIndicator;
     TwitterClient client;
     List <Tweet> tweets;
     TweetsAdapter adapter;
@@ -43,6 +44,7 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         client = TwitterApp.getRestClient(this); //Return an instance of the Twitter client
 
@@ -57,6 +59,8 @@ public class TimelineActivity extends AppCompatActivity {
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // Show progress item
+                pbIndicator.setVisible(true);
                 // To keep animation for 3 seconds
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -99,6 +103,10 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void populateHomeTimeLine() {
+        // Show progress item
+        if(pbIndicator!=null){
+            pbIndicator.setVisible(true);
+        }
         // Call the API method using our client
         client.getHomeTimeLine(new JsonHttpResponseHandler() {
             @Override
@@ -112,6 +120,8 @@ public class TimelineActivity extends AppCompatActivity {
                     adapter.addAll(Tweet.fromJsonArray(result));
                     // Call setRefreshing (false) to signal refresh has finished
                     binding.swipeContainer.setRefreshing(false);
+                    // Hide progress item
+                    pbIndicator.setVisible(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                 }
@@ -134,6 +144,8 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         //Check if the operation has succeded
         if( requestCode == REQUEST_CODE && resultCode== RESULT_OK){
+            // Show progress item
+            pbIndicator.setVisible(true);
             // Get data from the intent (get intent)
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
             // Update the RV with this tweet
@@ -143,10 +155,20 @@ public class TimelineActivity extends AppCompatActivity {
             adapter.notifyItemInserted(0);
             // Scroll to the very top of the RV
             binding.rvTweets.smoothScrollToPosition(0);
+            pbIndicator.setVisible(false);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        pbIndicator = menu.findItem(R.id.pbIndicatorInMenu);
+        pbIndicator.setActionView(R.layout.action_view_progress);
+        pbIndicator = menu.findItem(R.id.pbIndicatorInMenu);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public void onClickCompose(View view) {

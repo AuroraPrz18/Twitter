@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <item
         android:id="@+id/logout"
         android:icon="@drawable/ic_logout"
         android:title="Logout"
+        android:orderInCategory="2"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/pbIndicatorInMenu"
+        android:visible="true"
+        android:orderInCategory="1"
+        android:title="Loading..."
+        app:actionLayout="@layout/action_view_progress"
+        app:showAsAction="always"
+        />
 </menu>
