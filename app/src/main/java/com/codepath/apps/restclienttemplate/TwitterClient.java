@@ -41,18 +41,19 @@ public class TwitterClient extends OAuthBaseClient {
 				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
-	// CHANGE THIS
-	// Method to the home timeline
+
+	// Purpose : Obtain the home timeline
 	public void getHomeTimeLine(JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("count", 25); // Optional parameter to specify the number of records to retrieve.
 		params.put("since_id", 1); // Optional parameter to return results with an ID grater than the specified ID
+		params.put("tweet_mode", "extended"); // To force Twitter'' API to return the full text and entities object for each tweet
 		client.get(apiUrl, params, handler);
 	}
 
-	// Method to publish a tweet
+	// Purpose: Publish a tweet
 	public void publishTweet(String tweetContent,  JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		// Can specify query string params directly or through RequestParams.
@@ -61,7 +62,7 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler); // In this case we need a post request
 	}
 
-	// Method to reply a tweet
+	// Purpose: Reply a tweet
 	public void replyTweet(String tweetContent, String tweetId,  JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		// Can specify query string params directly or through RequestParams.

@@ -34,7 +34,11 @@ public class Tweet {
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.id = jsonObject.getString("id_str");
-        tweet.body = jsonObject.getString("text");
+        if(jsonObject.has("full_text")) {
+            tweet.body = jsonObject.getString("full_text");
+        } else {
+            tweet.body = jsonObject.getString("text");
+        }
         tweet.createdAt = jsonObject.getString("created_at");
         //We need to do this because each tweet has an user (who is another JSONObject), with a lot of info in it
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
