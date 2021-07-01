@@ -20,32 +20,35 @@ public class Tweet {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
+    public String id;
     public String body;
     public String createdAt;
     public User user;
     public Media media;
 
     // Empty constructor needed by the Parceler library
-    public Tweet() { }
+    public Tweet() {
+    }
 
     // Method to build the tweet as per the fields in the JSON object
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
+        tweet.id = jsonObject.getString("id_str");
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         //We need to do this because each tweet has an user (who is another JSONObject), with a lot of info in it
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         JSONObject entities = jsonObject.getJSONObject("entities");
-        if(entities.has("media")){
+        if (entities.has("media")) {
             JSONObject media = (JSONObject) entities.getJSONArray("media").get(0);
             JSONObject sizes = media.getJSONObject("sizes").getJSONObject("thumb");
             //if(media.getString("type").equals("photo")){ // If it has a photo
-                tweet.media = new Media(media.getString("media_url_https"), sizes.getInt("h"), sizes.getInt("h"));
+            tweet.media = new Media(media.getString("media_url_https"), sizes.getInt("h"), sizes.getInt("h"));
             /*}else{
                 tweet.media = new Media("");
             }*/
 
-        }else{
+        } else {
             tweet.media = new Media("");
         }
         return tweet;
@@ -76,9 +79,9 @@ public class Tweet {
                 return diff / HOUR_MILLIS + "h";
             } else if (diff < 7 * 24 * HOUR_MILLIS) {
                 return diff / DAY_MILLIS + "d";
-            }else {
-                String date = tweetDate.substring(8,9)+ " "+ tweetDate.substring(4,6)+ ".";
-                if(date.charAt(0)=='0'){
+            } else {
+                String date = tweetDate.substring(8, 9) + " " + tweetDate.substring(4, 6) + ".";
+                if (date.charAt(0) == '0') {
                     date = date.substring(1);
                 }
                 return date;

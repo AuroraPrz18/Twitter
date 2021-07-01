@@ -42,7 +42,7 @@ public class TwitterClient extends OAuthBaseClient {
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
 	// CHANGE THIS
-	// DEFINE METHODS for different API endpoints here
+	// Method to the home timeline
 	public void getHomeTimeLine(JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
@@ -52,12 +52,23 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, params, handler);
 	}
 
-	// DEFINE METHODS for different API endpoints here
+	// Method to publish a tweet
 	public void publishTweet(String tweetContent,  JsonHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("status", tweetContent); // Required parameter to specify the status update
+		client.post(apiUrl, params, "", handler); // In this case we need a post request
+	}
+
+	// Method to reply a tweet
+	public void replyTweet(String tweetContent, String tweetId,  JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/update.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("status", tweetContent); // Required parameter to specify the status update
+		params.put("in_reply_to_status_id", tweetId); // Required parameter to specify the status update
+		params.put("auto_populate_reply_metadata", true); // Leading @mentions will be looked up from the original Tweet, and added to the new Tweet from there.
 		client.post(apiUrl, params, "", handler); // In this case we need a post request
 	}
 

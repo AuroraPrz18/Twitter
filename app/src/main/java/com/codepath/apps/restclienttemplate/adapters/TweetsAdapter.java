@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.ComposeActivity;
 import com.codepath.apps.restclienttemplate.DetailActivity;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TimelineActivity;
@@ -27,6 +28,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Pass in the context and lis of tweets
     Context context;
     List<Tweet> tweets;
+    public final int REQUEST_CODE = 20; // NOte: This can be any value and is used to determine the result type later
 
     public TweetsAdapter(TimelineActivity context, List<Tweet> tweets) {
         this.context = context;
@@ -79,7 +81,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //We need the position to know wich item was clicked
+                    //We need the position to know which item was clicked
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION ){
                         // Get the tweet in that position
@@ -112,7 +114,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             });
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(final Tweet tweet) {
             binding.tvUserName.setText("@"+tweet.user.screenName);
             binding.tvBody.setText(tweet.body);
             binding.tvScreenName.setText(tweet.user.name);
@@ -120,12 +122,23 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.tvRTime.setText("· "+tweet.getRelativeTimeAgo(tweet.createdAt));
             String imageURL = tweet.media.getUrlMedia();
             if(!imageURL.equals("")){
-                Log.d("MAGEN", imageURL +" "+ tweet.user.profileImageUrl);
+                Log.d("IMAGEN", imageURL +" "+ tweet.user.profileImageUrl);
                 Glide.with(context).load(imageURL).into(binding.ivMedia);
             }else{
                 Glide.with(context).load("").into(binding.ivMedia);
             }
-
+            binding.icComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Compose icon has been selected
+                    // Navigate to the compose activity
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra("Tweet", Parcels.wrap(tweet));
+                    //context.startActivityForResult(intent, REQUEST_CODE);
+                    context.startActivity(intent);
+                    
+                }
+            });
 
         }
     }
