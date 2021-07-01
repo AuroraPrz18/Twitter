@@ -31,6 +31,7 @@ import okhttp3.Headers;
 public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "TimeLineActivity";
     public final int REQUEST_CODE = 20; // NOte: This can be any value and is used to determine the result type later
+    public static long max_id = 0; // Keep track of the lowest max_id parameter Tweet in our timeline -> It can be optimized saved in a ModelView
 
     ActivityTimelineBinding binding;
     MenuItem pbIndicator;

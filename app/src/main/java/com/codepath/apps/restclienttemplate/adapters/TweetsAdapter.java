@@ -2,7 +2,6 @@ package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.codepath.apps.restclienttemplate.ComposeActivity;
 import com.codepath.apps.restclienttemplate.DetailActivity;
 import com.codepath.apps.restclienttemplate.R;
@@ -23,6 +24,10 @@ import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
     // Pass in the context and lis of tweets
@@ -118,12 +123,27 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.tvUserName.setText("@"+tweet.user.screenName);
             binding.tvBody.setText(tweet.body);
             binding.tvScreenName.setText(tweet.user.name);
+
+            binding.tvRetweetCount.setText(tweet.retweetCount+"");
+            binding.tvLikeCount.setText(tweet.favoriteCount+"");
+
             Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
             binding.tvRTime.setText("· "+tweet.getRelativeTimeAgo(tweet.createdAt));
             String imageURL = tweet.media.getUrlMedia();
             if(!imageURL.equals("")){
-                Log.d("IMAGEN", imageURL +" "+ tweet.user.profileImageUrl);
-                Glide.with(context).load(imageURL).into(binding.ivMedia);
+                int radius = 30; //corner radius, higher value = more rounded
+                int margin = 10; //crop margin, set to 0 for corners with no crop
+
+                MultiTransformation multiLeft = new MultiTransformation(
+                        new FitCenter(),
+                        new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL));
+
+                Glide.with(context)
+                        .load(imageURL)
+                        .apply(bitmapTransform(multiLeft))
+                        .into(binding.ivMedia);
+
+                //Glide.with(context).load(imageURL).transform(new RoundedCornersTransformation(radius, margin)).into(binding.ivMedia);
             }else{
                 Glide.with(context).load("").into(binding.ivMedia);
             }

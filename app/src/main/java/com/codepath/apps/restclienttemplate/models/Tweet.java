@@ -21,11 +21,16 @@ public class Tweet {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
+
+
     public String id;
     public String body;
     public String createdAt;
     public User user;
     public Media media;
+    public int retweetCount;
+    public int favoriteCount;
+    public int replyCount;
 
     // Empty constructor needed by the Parceler library
     public Tweet() {
@@ -41,6 +46,9 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
         }
         tweet.createdAt = jsonObject.getString("created_at");
+        tweet.retweetCount = jsonObject.getInt("retweet_count");
+        tweet.favoriteCount = jsonObject.getInt("favorite_count");
+        //tweet.replyCount= jsonObject.getInt("reply_count");
         //We need to do this because each tweet has an user (who is another JSONObject), with a lot of info in it
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         JSONObject entities = jsonObject.getJSONObject("entities");
