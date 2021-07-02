@@ -1,196 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/medium_gray_30"
-    android:layout_marginTop="1dp"
-
-    >
-
+    android:layout_height="wrap_content">
     <RelativeLayout
-        android:background="@color/background_item"
-        android:id="@+id/containerDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/ivProfileImageContainer"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:elevation="12dp"
-            app:cardCornerRadius="40dp"
-            android:layout_centerHorizontal="true">
-            <ImageView
-                android:id="@+id/ivProfileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:srcCompat="@tools:sample/avatars" />
-        </androidx.cardview.widget.CardView>
+        android:background="@color/medium_gray_30"
+        android:layout_marginTop="1dp"  >
 
-
-
-        <TextView
-            android:id="@+id/tvScreenName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@id/ivProfileImageContainer"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            tools:text="Name" />
-
-        <TextView
-            android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="0dp"
-            android:layout_toEndOf="@id/ivProfileImageContainer"
-            android:layout_below="@+id/tvScreenName"
-            tools:text="Usuario" />
-
-        <TextView
-            android:id="@+id/tvBody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivProfileImageContainer"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp"
-            android:autoLink="all"
-            android:linksClickable="true"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            tools:text="Overview" />
-
-        <TextView
-            android:id="@+id/tvRTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ivMedia"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="5dp"
-            tools:text="5:45 p. m. · 30 jun 21" />
-
-
-        <ImageView
-            android:id="@+id/ivMedia"
+        <RelativeLayout
+            android:background="@color/background_item"
+            android:id="@+id/containerDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvBody"
+            android:padding="10dp">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ivProfileImageContainer"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:elevation="12dp"
+                app:cardCornerRadius="40dp"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+
+
+
+            <TextView
+                android:id="@+id/tvScreenName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@id/ivProfileImageContainer"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@id/ivProfileImageContainer"
+                android:layout_below="@+id/tvScreenName"
+                tools:text="Usuario" />
+
+            <TextView
+                android:id="@+id/tvBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivProfileImageContainer"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="Overview" />
+
+            <TextView
+                android:id="@+id/tvRTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivMedia"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="5dp"
+                tools:text="5:45 p. m. · 30 jun 21" />
+
+
+            <ImageView
+                android:id="@+id/ivMedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvBody"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter"
+                tools:srcCompat="@tools:sample/avatars" />
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/containerDetails"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitCenter"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/background_item">
+
+            <ImageButton
+                android:id="@+id/icComment"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:backgroundTint="@color/background_item"
+                android:tint="#AAB8C2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_comment_stroke" />
+
+            <ImageButton
+                android:id="@+id/ibRetweet"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:backgroundTint="@color/background_item"
+                android:tint="#AAB8C2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ibLike"
+                app:layout_constraintStart_toEndOf="@+id/icComment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+            <ImageButton
+                android:id="@+id/ibLike"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="64dp"
+                android:backgroundTint="@color/background_item"
+                android:tint="#AAB8C2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+            <TextView
+                android:id="@+id/tvReplyCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ibRetweet"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/icComment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/tvRetweetCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvReplyCount"
+                app:layout_constraintEnd_toEndOf="@+id/tvLikeCount"
+                app:layout_constraintHorizontal_bias="0.016"
+                app:layout_constraintStart_toEndOf="@+id/ibRetweet"
+                tools:text="10,000" />
+
+            <TextView
+                android:id="@+id/tvLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvRetweetCount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ibLike"
+                tools:text="10,000" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/containerButtons"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/background_item">
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/containerButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/containerDetails"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:padding="10dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/background_item">
 
-        <ImageButton
-            android:id="@+id/icComment"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:backgroundTint="@color/background_item"
-            android:tint="#AAB8C2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_comment_stroke" />
-
-        <ImageButton
-            android:id="@+id/ibRetweet"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:backgroundTint="@color/background_item"
-            android:tint="#AAB8C2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibLike"
-            app:layout_constraintStart_toEndOf="@+id/icComment"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_vector_retweet_stroke" />
-
-        <ImageButton
-            android:id="@+id/ibLike"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="64dp"
-            android:backgroundTint="@color/background_item"
-            android:tint="#AAB8C2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_vector_heart_stroke" />
-
-        <TextView
-            android:id="@+id/tvReplyCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibRetweet"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/icComment"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
-            android:id="@+id/tvRetweetCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvReplyCount"
-            app:layout_constraintEnd_toEndOf="@+id/tvLikeCount"
-            app:layout_constraintHorizontal_bias="0.016"
-            app:layout_constraintStart_toEndOf="@+id/ibRetweet"
-            tools:text="10,000" />
-
-        <TextView
-            android:id="@+id/tvLikeCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvRetweetCount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/ibLike"
-            tools:text="10,000" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/containerButtons"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:padding="10dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/background_item">
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</RelativeLayout>
+</ScrollView>

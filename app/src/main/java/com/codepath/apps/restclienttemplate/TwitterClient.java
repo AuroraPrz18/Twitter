@@ -91,12 +91,23 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler); // In this case we need a post request
 	}
 
-	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-	 * 	  i.e getApiUrl("statuses/home_timeline.json");
-	 * 2. Define the parameters to pass to the request (query or body)
-	 *    i.e RequestParams params = new RequestParams("foo", "bar");
-	 * 3. Define the request method and make a call to the client
-	 *    i.e client.get(apiUrl, params, handler);
-	 *    i.e client.post(apiUrl, params, handler);
-	 */
+	// Purpose: Retweet a tweet
+	public void retweetTweet(String tweetId,  JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/retweet.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("id", tweetId); // Required parameter to specify the tweet retweeted
+		params.put("trim_user", true);
+		client.post(apiUrl, params, "", handler); // In this case we need a post request
+	}
+
+	// Purpose: Unretweet a tweet
+	public void unretweetTweet(String tweetId,  JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/unretweet.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("id", tweetId); // Required parameter to specify the tweet unretweeted
+		params.put("trim_user", true);
+		client.post(apiUrl, params, "", handler); // In this case we need a post request
+	}
 }

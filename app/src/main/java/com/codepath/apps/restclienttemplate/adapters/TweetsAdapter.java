@@ -140,7 +140,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
 
             if(tweet.retweeted){
-                binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                binding.ibRetweet.setImageResource(R.drawable.ic_retweet_ready);
             }else{
                 binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
             }
@@ -221,6 +221,47 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
 
 
+                }
+            });
+
+            binding.ibRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
+                    final String TAG = "retweet";
+                    if(!tweet.retweeted){
+                        // Call the API method using our client to like it
+                        client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess " + json.toString());
+                                JSONArray result = json.jsonArray;
+                                tweet.retweeted = true;
+                                binding.ibRetweet.setImageResource(R.drawable.ic_retweet_ready);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "onFailure", throwable);
+                            }
+                        });
+                    }else{
+                        // Call the API method using our client to not like it
+                        client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess " + json.toString());
+                                JSONArray result = json.jsonArray;
+                                tweet.retweeted  = false;
+                                binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "onFailure", throwable);
+                            }
+                        });
+                    }
                 }
             });
 
