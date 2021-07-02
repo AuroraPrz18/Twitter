@@ -43,13 +43,13 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/AuroraPrz18/Twitter/blob/master/walkthroug1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-GIF created with [Kap](https://getkap.co/).
+GIF created with [LICEcap](https://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+The use of APIs is something new for me, for this reason it took me a lot of time understanding it, but this is a very interesting app to learn APIs! It was very funny.
 
 ## Open-source libraries used
 
