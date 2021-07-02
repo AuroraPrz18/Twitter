@@ -12,7 +12,7 @@ public interface SampleModelDao {
 
     // @Query annotation requires knowing SQL syntax
     // See http://www.sqltutorial.org/
-    
+
     @Query("SELECT * FROM SampleModel WHERE id = :id")
     SampleModel byId(long id);
 

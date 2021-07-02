@@ -1,6 +1,12 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
+
+import com.codepath.apps.restclienttemplate.TwitterApp;
+import com.codepath.apps.restclienttemplate.TwitterClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,13 +20,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.Headers;
+
 @Parcel
 public class Tweet {
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-
 
 
     public String id;
@@ -42,7 +49,7 @@ public class Tweet {
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.id = jsonObject.getString("id_str");
-        if(jsonObject.has("full_text")) {
+        if (jsonObject.has("full_text")) {
             tweet.body = jsonObject.getString("full_text");
         } else {
             tweet.body = jsonObject.getString("text");
@@ -70,6 +77,7 @@ public class Tweet {
         }
         return tweet;
     }
+
 
     // Method to get the relative time ago for each tweet
     public String getRelativeTimeAgo(String tweetDate) {
@@ -111,17 +119,17 @@ public class Tweet {
     }
 
     // Method that returns the date in the local time zone
-    public static String getDate(Tweet tweet){
+    public static String getDate(Tweet tweet) {
         String date = "";
         try {
             SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
             Date parcedDate = format.parse(tweet.createdAt);
             String parced = parcedDate.toString();
-            date = parced.substring(11,16) + " · "+ parced.substring(4,10) + ", " + parced.substring(25);
+            date = parced.substring(11, 16) + " · " + parced.substring(4, 10) + ", " + parced.substring(25);
 
         } catch (ParseException e) {
-            date="";
-        }finally {
+            date = "";
+        } finally {
             return date;
         }
     }
@@ -133,6 +141,89 @@ public class Tweet {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
+    }
+
+    public static void onLikeListener(Context context, final Tweet tweet) {
+        TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
+        final String TAG = "like";
+        // Call the API method using our client to like it
+        client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess " + json.toString());
+                JSONArray result = json.jsonArray;
+                tweet.favorited = true;
+                tweet.favoriteCount++;
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure", throwable);
+            }
+        });
+    }
+
+    public static void onUnlikeListener(Context context, final Tweet tweet) {
+        TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
+        final String TAG = "like";
+        // Call the API method using our client to not like it
+        client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess " + json.toString());
+                JSONArray result = json.jsonArray;
+                tweet.favorited = false;
+                tweet.favoriteCount--;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure", throwable);
+            }
+        });
+    }
+
+    public static void onRetweetListener(Context context, final Tweet tweet) {
+        TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
+        final String TAG = "retweet";
+        // Call the API method using our client to like it
+        client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess " + json.toString());
+                JSONArray result = json.jsonArray;
+                tweet.retweeted = true;
+                tweet.retweetCount++;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure", throwable);
+            }
+        });
+
+    }
+
+    public static void onUnretweetListener(Context context, final Tweet tweet) {
+        TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
+        final String TAG = "retweet";
+        // Call the API method using our client to not like it
+        client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess " + json.toString());
+                JSONArray result = json.jsonArray;
+                tweet.retweeted = false;
+                tweet.retweetCount--;
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure", throwable);
+            }
+        });
+
     }
 
 }

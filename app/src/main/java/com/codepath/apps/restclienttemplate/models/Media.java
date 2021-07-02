@@ -10,7 +10,8 @@ public class Media {
     private int width;
 
     // Empty constructor needed by the Parceler library
-    public Media() { }
+    public Media() {
+    }
 
     public Media(String urlMedia, int height, int width) {
         this.urlMedia = urlMedia;

@@ -34,10 +34,10 @@ public class ComposeActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this); //Return an instance of the Twitter client
 
         // Define if it is a reply or not
-        if(getIntent()!=null && getIntent().hasExtra("Tweet")){
+        if (getIntent() != null && getIntent().hasExtra("Tweet")) {
             tweet = Parcels.unwrap(getIntent().getParcelableExtra("Tweet"));
-            binding.tvReplyTo.setText("Reply to @"+tweet.user.screenName);
-        }else{
+            binding.tvReplyTo.setText("Reply to @" + tweet.user.screenName);
+        } else {
             tweet = null;
         }
 
@@ -47,22 +47,24 @@ public class ComposeActivity extends AppCompatActivity {
         // Set click listener on button
         binding.btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { onClickSumbit();   }
+            public void onClick(View v) {
+                onClickSumbit();
+            }
         });
 
     }
 
     private void onClickSumbit() {
         String tweetContent = binding.etCompose.getText().toString();
-        if(tweetContent.isEmpty()){
+        if (tweetContent.isEmpty()) {
             Toast.makeText(ComposeActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_LONG).show();
             return;
         }
-        if(tweetContent.length() > MAX_TWEET_LENGTH) {
+        if (tweetContent.length() > MAX_TWEET_LENGTH) {
             Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_LONG).show();
             return;
         }
-        if(tweet == null){
+        if (tweet == null) {
             // Make an API call to Twitter to publish the tweet, sending the content to the publishTweet method
             client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                 @Override
@@ -75,7 +77,7 @@ public class ComposeActivity extends AppCompatActivity {
                     Log.e(TAG, "onFailure to publish tweet", throwable);
                 }
             });
-        }else{
+        } else {
             // Make an API call to Twitter to publish the tweet as a reply, sending the content to the publishTweet method
             client.replyTweet(tweetContent, tweet.id, new JsonHttpResponseHandler() {
                 @Override
@@ -94,9 +96,8 @@ public class ComposeActivity extends AppCompatActivity {
 
     private void onSuccessTweet(JsonHttpResponseHandler.JSON json) {
         Log.i(TAG, "onSuccess to publish tweet");
-        try{
+        try {
             Tweet tweetNew = Tweet.fromJson(json.jsonObject);
-            Log.i(TAG, "Published tweet says: " + tweet.body);
             Intent intent = new Intent();
             // Pass the data that the parent activity is waiting for with its result code
             intent.putExtra("tweet", Parcels.wrap(tweetNew));

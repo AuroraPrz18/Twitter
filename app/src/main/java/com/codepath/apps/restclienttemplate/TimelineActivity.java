@@ -36,7 +36,7 @@ public class TimelineActivity extends AppCompatActivity {
     ActivityTimelineBinding binding;
     MenuItem pbIndicator;
     TwitterClient client;
-    List <Tweet> tweets;
+    List<Tweet> tweets;
     TweetsAdapter adapter;
 
     @SuppressLint("ResourceAsColor")
@@ -96,7 +96,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout){
+        if (item.getItemId() == R.id.logout) {
             onClickLogout();
             return true; // true because we want to consume the processing here
         }
@@ -105,7 +105,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void populateHomeTimeLine() {
         // Show progress item
-        if(pbIndicator!=null){
+        if (pbIndicator != null) {
             pbIndicator.setVisible(true);
         }
         // Call the API method using our client
@@ -151,7 +151,7 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         //Check if the operation has succeded
-        if( requestCode == REQUEST_CODE && resultCode== RESULT_OK){
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             // Show progress item
             pbIndicator.setVisible(true);
             // Get data from the intent (get intent)

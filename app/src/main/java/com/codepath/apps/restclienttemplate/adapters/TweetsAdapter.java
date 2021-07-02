@@ -2,7 +2,6 @@ package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +17,15 @@ import com.codepath.apps.restclienttemplate.ComposeActivity;
 import com.codepath.apps.restclienttemplate.DetailActivity;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TimelineActivity;
-import com.codepath.apps.restclienttemplate.TwitterApp;
-import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.parceler.Parcels;
 
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
-import okhttp3.Headers;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -70,13 +64,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
     // Clean all elements of the recycler
-    public void clear(){
+    public void clear() {
         tweets.clear();
         notifyDataSetChanged();
     }
 
     // Add a list of items -- change to type used
-    public void addAll(List<Tweet> list){
+    public void addAll(List<Tweet> list) {
         tweets.addAll(list);
         notifyDataSetChanged();
     }
@@ -89,18 +83,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public ViewHolder(@NonNull @NotNull final View itemView) {
             super(itemView);
             binding = ItemTweetBinding.bind(itemView);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //We need the position to know which item was clicked
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION ){
+                    if (position != RecyclerView.NO_POSITION) {
                         // Get the tweet in that position
                         Tweet tweet = tweets.get(position);
                         Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("Tweet", Parcels.wrap(tweet));
                         context.startActivity(intent);
-                    }else{
+                    } else {
                         Toast.makeText(context, "Something is going wrong, choose another tweet", Toast.LENGTH_SHORT).show();
                     }
 
@@ -111,13 +106,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 public void onClick(View v) {
                     //We need the position to know wich item was clicked
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION ){
+                    if (position != RecyclerView.NO_POSITION) {
                         // Get the tweet in that position
                         Tweet tweet = tweets.get(position);
                         Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("Tweet", Parcels.wrap(tweet));
                         context.startActivity(intent);
-                    }else{
+                    } else {
                         Toast.makeText(context, "Something is going wrong, choose another tweet", Toast.LENGTH_SHORT).show();
                     }
 
@@ -126,46 +121,55 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
 
         public void bind(final Tweet tweet) {
-            binding.tvUserName.setText("@"+tweet.user.screenName);
+
+            // -------------- User info
+            binding.tvUserName.setText("@" + tweet.user.screenName);
             binding.tvBody.setText(tweet.body);
             binding.tvScreenName.setText(tweet.user.name);
+            binding.tvRTime.setText("· " + tweet.getRelativeTimeAgo(tweet.createdAt));
 
-            binding.tvRetweetCount.setText(tweet.retweetCount+"");
-            binding.tvLikeCount.setText(tweet.favoriteCount+"");
+            // -------------- Tweet info
+            binding.tvRetweetCount.setText(tweet.retweetCount + "");
+            binding.tvLikeCount.setText(tweet.favoriteCount + "");
 
-            if(tweet.favorited){
+            // Determine if it was liked by the user
+            if (tweet.favorited) {
                 binding.ibLike.setImageResource(R.drawable.ic_vector_heart);
-            }else{
+            } else {
                 binding.ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
             }
-
-            if(tweet.retweeted){
+            // Determine if it was retweeted by the user
+            if (tweet.retweeted) {
                 binding.ibRetweet.setImageResource(R.drawable.ic_retweet_ready);
-            }else{
+            } else {
                 binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
             }
 
-
+            // In case that the tweet contains an image, it should show it
             Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
-            binding.tvRTime.setText("· "+tweet.getRelativeTimeAgo(tweet.createdAt));
             String imageURL = tweet.media.getUrlMedia();
-            if(!imageURL.equals("")){
+            if (!imageURL.equals("")) {
                 int radius = 30; //corner radius, higher value = more rounded
                 int margin = 10; //crop margin, set to 0 for corners with no crop
-
+                // To round the corners
                 MultiTransformation multiLeft = new MultiTransformation(
                         new FitCenter(),
                         new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL));
-
+                // Load the image with Glide
                 Glide.with(context)
                         .load(imageURL)
                         .apply(bitmapTransform(multiLeft))
                         .into(binding.ivMedia);
-
-                //Glide.with(context).load(imageURL).transform(new RoundedCornersTransformation(radius, margin)).into(binding.ivMedia);
-            }else{
+            } else {
                 Glide.with(context).load("").into(binding.ivMedia);
             }
+
+            // -------------- Set listeners (on click icons)
+            setListenersForEachItem(tweet);
+        }
+
+        private void setListenersForEachItem(final Tweet tweet) {
+
             binding.icComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -175,51 +179,23 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     intent.putExtra("Tweet", Parcels.wrap(tweet));
                     //context.startActivityForResult(intent, REQUEST_CODE);
                     context.startActivity(intent);
-                    
+
                 }
             });
 
             binding.ibLike.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
-                    TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
-                    final String TAG = "like";
-                    if(!tweet.favorited){
-                        // Call the API method using our client to like it
-                        client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess " + json.toString());
-                                JSONArray result = json.jsonArray;
-                                tweet.favorited = true;
-                                binding.ibLike.setImageResource(R.drawable.ic_vector_heart);
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(TAG, "onFailure", throwable);
-                            }
-                        });
-                    }else{
-                        // Call the API method using our client to not like it
-                        client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess " + json.toString());
-                                JSONArray result = json.jsonArray;
-                                tweet.favorited = false;
-                                binding.ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(TAG, "onFailure", throwable);
-                            }
-                        });
+                    //Delegate the work to Tweet
+                    if (!tweet.favorited) {
+                        Tweet.onLikeListener(context, tweet);
+                        binding.ibLike.setImageResource(R.drawable.ic_vector_heart);
+                        binding.tvLikeCount.setText(tweet.favoriteCount + 1 + "");
+                    } else {
+                        Tweet.onUnlikeListener(context, tweet);
+                        binding.ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                        binding.tvLikeCount.setText(tweet.favoriteCount - 1 + "");
                     }
-
-
 
                 }
             });
@@ -227,44 +203,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.ibRetweet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
-                    final String TAG = "retweet";
-                    if(!tweet.retweeted){
-                        // Call the API method using our client to like it
-                        client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess " + json.toString());
-                                JSONArray result = json.jsonArray;
-                                tweet.retweeted = true;
-                                binding.ibRetweet.setImageResource(R.drawable.ic_retweet_ready);
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(TAG, "onFailure", throwable);
-                            }
-                        });
-                    }else{
-                        // Call the API method using our client to not like it
-                        client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess " + json.toString());
-                                JSONArray result = json.jsonArray;
-                                tweet.retweeted  = false;
-                                binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(TAG, "onFailure", throwable);
-                            }
-                        });
+                    //Delegate the work to Tweet
+                    if (!tweet.retweeted) {
+                        Tweet.onRetweetListener(context, tweet);
+                        binding.ibRetweet.setImageResource(R.drawable.ic_retweet_ready);
+                        binding.tvRetweetCount.setText(tweet.retweetCount + 1 + "");
+                    } else {
+                        Tweet.onUnretweetListener(context, tweet);
+                        binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                        binding.tvRetweetCount.setText(tweet.retweetCount - 1 + "");
                     }
                 }
             });
-
         }
     }
 }
