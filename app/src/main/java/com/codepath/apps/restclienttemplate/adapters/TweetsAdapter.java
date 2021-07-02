@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,20 @@ import com.codepath.apps.restclienttemplate.ComposeActivity;
 import com.codepath.apps.restclienttemplate.DetailActivity;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TimelineActivity;
+import com.codepath.apps.restclienttemplate.TwitterApp;
+import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.parceler.Parcels;
 
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import okhttp3.Headers;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -127,6 +133,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.tvRetweetCount.setText(tweet.retweetCount+"");
             binding.tvLikeCount.setText(tweet.favoriteCount+"");
 
+            if(tweet.favorited){
+                binding.ibLike.setImageResource(R.drawable.ic_vector_heart);
+            }else{
+                binding.ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+            }
+
+            if(tweet.retweeted){
+                binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet);
+            }else{
+                binding.ibRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+            }
+
+
             Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
             binding.tvRTime.setText("· "+tweet.getRelativeTimeAgo(tweet.createdAt));
             String imageURL = tweet.media.getUrlMedia();
@@ -157,6 +176,51 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     //context.startActivityForResult(intent, REQUEST_CODE);
                     context.startActivity(intent);
                     
+                }
+            });
+
+            binding.ibLike.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    TwitterClient client = TwitterApp.getRestClient(context); //Return an instance of the Twitter client
+                    final String TAG = "like";
+                    if(!tweet.favorited){
+                        // Call the API method using our client to like it
+                        client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess " + json.toString());
+                                JSONArray result = json.jsonArray;
+                                tweet.favorited = true;
+                                binding.ibLike.setImageResource(R.drawable.ic_vector_heart);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "onFailure", throwable);
+                            }
+                        });
+                    }else{
+                        // Call the API method using our client to not like it
+                        client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess " + json.toString());
+                                JSONArray result = json.jsonArray;
+                                tweet.favorited = false;
+                                binding.ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "onFailure", throwable);
+                            }
+                        });
+                    }
+
+
+
                 }
             });
 

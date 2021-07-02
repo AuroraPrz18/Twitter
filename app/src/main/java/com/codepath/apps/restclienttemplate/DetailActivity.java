@@ -26,6 +26,9 @@ public class DetailActivity extends AppCompatActivity {
             binding.tvScreenName.setText(tweet.user.name);
             Glide.with(this).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
 
+            binding.tvRetweetCount.setText(tweet.retweetCount+"");
+            binding.tvLikeCount.setText(tweet.favoriteCount+"");
+
             // Get the date of the tweet, to do it, it should be parced to the local time zone
             binding.tvRTime.setText(Tweet.getDate(tweet));
 
